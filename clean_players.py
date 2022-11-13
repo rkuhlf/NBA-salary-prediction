@@ -87,8 +87,10 @@ def add_career_revenue(data, from_name="salary", target_name="career_revenue"):
         id = row["id"]
         
         data.loc[index, target_name] = int(salaries[salaries["player_id"] == id][from_name].sum())
+    
+    data = data[df[target_name] != 0]
 
-    print(data)
+    return data
 
 
 if __name__ == "__main__":
@@ -96,7 +98,7 @@ if __name__ == "__main__":
     # df = pd.read_csv("./cleaned_players.csv")
 
     drop_na(df)
-    add_career_revenue(df)
-    add_career_revenue(df, "adjusted_salary", "adjusted_career_revenue")
+    df = add_career_revenue(df)
+    df = add_career_revenue(df, "adjusted_salary", "adjusted_career_revenue")
 
     df.to_csv("cleaned_players.csv", index=False)

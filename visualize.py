@@ -55,11 +55,50 @@ def display_salary_over_time(salaries: pd.DataFrame):
     plt.plot(years.values, adjusted_salaries.values, label="Inflation adjusted")
     plt.title("Salaries over Time")
     plt.ylabel("Average Salary (millions)")
-    plt.xlabel("Year")
+    # plt.xlabel("Year")
     plt.legend()
+    plt.savefig("test")
     plt.show()
 
+def plot_teams_box_plot(salaries: pd.DataFrame, col="salary"):
+    plt.rc('figure', titlesize=20)
+    plt.rc('axes', titlesize=16)
+    plt.rc('xtick', labelsize=14)
 
+    temp_data = salaries.copy()
+    temp_data[col] /= 1e6
+
+    salaries_by_team = temp_data.groupby("team")[col].apply(list).to_dict()
+
+    teams_to_graph = {}
+
+    # City of Houston
+    teams_to_graph["Houston Rockets"] = salaries_by_team["Houston Rockets"]
+    # Famous for having lots of super stars, but not super high
+    teams_to_graph["Golden State Warriors"] = salaries_by_team["Golden State Warriors"]
+    # Founded in 
+    teams_to_graph["Brooklyn Nets"] = salaries_by_team["Brooklyn Nets"]
+    # One of the newer teams, but not super high paid
+    teams_to_graph["Memphis Grizzlies"] = salaries_by_team["Memphis Grizzlies"]
+    # Bruh
+    teams_to_graph["Kansas City Kings"] = salaries_by_team["Kansas City Kings"]
+
+    fig = plt.figure()
+
+    ax = fig.subplots()
+
+
+    ax.boxplot(teams_to_graph.values(), showfliers=False)
+    ax.set_xticklabels(map(lambda name: name.split()[-1], teams_to_graph.keys()), rotation='vertical')
+    ax.set_ylabel("Salary (millions)")
+
+    plt.title("Salaries by Team")
+
+def plot_revenue_comparison(players: pd.DataFrame, col: str, title: str, xlabel: str, **kwargs):
+    plt.scatter(players[col], players["adjusted_career_revenue"] / 1e6, **kwargs)
+    plt.xlabel(xlabel)
+    plt.ylabel("Career Revenue (millions)")
+    plt.title(title)
 
 if __name__ == "__main__":
     df_players = pd.read_csv("cleaned_players.csv")
@@ -72,6 +111,18 @@ if __name__ == "__main__":
 
     # show_career_revenue_distribution(df_players)
 
-    display_salary_over_time(df_salaries)
+    plt.rc('axes', titlesize=20)
+    plt.rc('axes', labelsize=14)
+    plt.rc('xtick', labelsize=12)
+    plt.rc('ytick', labelsize=12)
+    # plt.rc('ylabel', labelsize=14)
+    plt.figure(dpi=200)
+
+    # display_salary_over_time(df_salaries)
+    # plot_teams_box_plot(df_salaries, "adjusted_salary")
+    plot_revenue_comparison(df_players, "career_pts", title="Importance of Scoring", xlabel="Points per Game", alpha=0.5, s=0.15)
+
+    plt.savefig("test")
+    plt.show()
 
     pass
