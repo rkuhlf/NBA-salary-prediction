@@ -44,6 +44,20 @@ def print_top_players(data: pd.DataFrame, count=10):
         revenue = row['career_revenue'].values[0]
         print(f"{name}: ${revenue}")
 
+def display_salary_over_time(salaries: pd.DataFrame):
+    data = salaries.groupby("season_start").mean()
+
+    years = data.index
+    salaries = data["salary"] / 1e6
+
+    plt.plot(years.values, salaries.values)
+    plt.title("Salaries over Time")
+    plt.ylabel("Average Salary (millions)")
+    plt.xlabel("Year")
+    plt.show()
+
+
+
 if __name__ == "__main__":
     df_players = pd.read_csv("cleaned_players.csv")
     df_salaries = pd.read_csv("cleaned_salaries.csv")
@@ -51,9 +65,10 @@ if __name__ == "__main__":
     # show_salaries_histogram(df_salaries)
     # show_salaries_by_team(df_salaries)
 
-    print_top_players(df_players)
+    # print_top_players(df_players)
 
     # show_career_revenue_distribution(df_players)
 
+    display_salary_over_time(df_salaries)
 
     pass
