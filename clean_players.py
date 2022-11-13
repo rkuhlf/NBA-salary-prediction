@@ -79,14 +79,14 @@ def drop_na(df):
             print(f"Skipping {column} because it has been removed")
 
 
-def add_career_revenue(data, col_name="career_revenue"):
-    data["career_revenue"] = 0
+def add_career_revenue(data, from_name="salary", target_name="career_revenue"):
+    data[target_name] = 0
     # clean_salaries must be run before this.
     salaries = pd.read_csv("cleaned_salaries.csv")
     for index, row in data.iterrows():
         id = row["id"]
         
-        data.loc[index, "career_revenue"] = salaries[salaries["player_id"] == id]["salary"].sum()
+        data.loc[index, target_name] = int(salaries[salaries["player_id"] == id][from_name].sum())
 
     print(data)
 
@@ -97,5 +97,6 @@ if __name__ == "__main__":
 
     drop_na(df)
     add_career_revenue(df)
+    add_career_revenue(df, "adjusted_salary", "adjusted_career_revenue")
 
     df.to_csv("cleaned_players.csv", index=False)
