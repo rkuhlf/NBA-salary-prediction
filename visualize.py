@@ -49,11 +49,14 @@ def display_salary_over_time(salaries: pd.DataFrame):
 
     years = data.index
     salaries = data["salary"] / 1e6
+    adjusted_salaries = data["adjusted_salary"] / 1e6
 
-    plt.plot(years.values, salaries.values)
+    plt.plot(years.values, salaries.values, label="Salary")
+    plt.plot(years.values, adjusted_salaries.values, label="Inflation adjusted")
     plt.title("Salaries over Time")
     plt.ylabel("Average Salary (millions)")
     plt.xlabel("Year")
+    plt.legend()
     plt.show()
 
 

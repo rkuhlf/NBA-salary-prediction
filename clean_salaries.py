@@ -13,14 +13,14 @@ print(na_count(df))
 
 
 df_inflation = pd.read_csv("cleaned_inflation.csv")
-adjusted_salaries = []
-for index, row in df.iterrows():
-    year = row["season_start"]
+
+df["adjusted_salary"] = 0
+for index, row in df_inflation.iterrows():
+    year = row["year"]
     index = df_inflation[df_inflation["year"] == year].first_valid_index()
     inflation = df_inflation.iloc[index]["inflation"] / 100
 
-    adjusted_salaries.append(df.loc[index, "salary"] / inflation)
+    df.loc[df["season_start"] == year, "adjusted_salary"] = df.loc[df["season_start"] == year, "salary"] / inflation
 
-df["adjusted_salary"] = adjusted_salaries
 
 df.to_csv("cleaned_salaries.csv", index=False)

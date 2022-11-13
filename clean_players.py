@@ -79,7 +79,7 @@ def drop_na(df):
             print(f"Skipping {column} because it has been removed")
 
 
-def add_career_revenue(data):
+def add_career_revenue(data, col_name="career_revenue"):
     data["career_revenue"] = 0
     # clean_salaries must be run before this.
     salaries = pd.read_csv("cleaned_salaries.csv")
