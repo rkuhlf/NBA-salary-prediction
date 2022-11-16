@@ -4,7 +4,9 @@
 
 career field goals is missing from too many players (~35%) so setting it to 0.
 
-9/25/2022 went from 4500 data points to 2500 data points after cleaning. Added 500 rows by getting rid of efg column.
+9/25/2022 went from 4500 data points to 2500 data points after cleaning. Added 500 rows by getting rid of efg column. We have both fg and fg3, so efg is redundant.
+
+I assumed 0 for fg3 if you have never shot one.
 
 ## Visualization
 

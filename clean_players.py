@@ -1,19 +1,21 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
+import regex as re
+
 
 from helpers import na_count
 scaler = StandardScaler()
 
 
 def drop_na(df):
-    to_drop_columns = ["birthplace", "highschool", "draft_team", "draft_pick"]
+    to_drop_columns = ["career_efg", "birthplace", "highschool", "draft_team", "draft_pick"]
     for column in to_drop_columns:
         print(f"Dropping {column}")
         df.drop(labels=[column], axis=1, inplace=True)
     print()
 
 
-    to_drop_rows = ["career_efg", "career_ast", "career_fg", "career_g", "career_per", "career_pts", "career_trb", "career_ws", "weight", "height", "birthdate", "draft_round", "draft_year"]
+    to_drop_rows = ["career_ast", "career_fg", "career_g", "career_per", "career_pts", "career_trb", "career_ws", "weight", "height", "birthdate", "draft_round", "draft_year"]
     for column in to_drop_rows:
         drop_count = df[column].isna().sum()
         total_count = len(df)
@@ -78,6 +80,19 @@ def drop_na(df):
         else:
             print(f"Skipping {column} because it has been removed")
 
+def convert_formats(df: pd.DataFrame):
+    def convert_round(value):
+        try:
+            num = re.search(r'\d+', str(value)).group()
+        except:
+            print(f"Could not convert {value}")
+            return pd.NaN
+
+        return int(num)
+
+    df["draft_round"] = df["draft_round"].map(convert_round)
+
+    return df
 
 def add_categorical(df: pd.DataFrame):
     df["attended_college"] = df["college"] != "N/A"
@@ -99,7 +114,10 @@ def add_career_revenue(data, from_name="salary", target_name="career_revenue"):
         
         data.loc[index, target_name] = int(salaries[salaries["player_id"] == id][from_name].sum())
     
-    data = data[df[target_name] != 0]
+    orig_len = len(data)
+    data = data[data[target_name] != 0]
+
+    print(f"Dropped {orig_len - len(data)} out of {orig_len} because their salaries were 0.")
 
     return data
 
@@ -109,10 +127,20 @@ if __name__ == "__main__":
     # df = pd.read_csv("./cleaned_players.csv")
 
     drop_na(df)
+    print(len(df))
+
     df = add_categorical(df)
+    print(len(df))
+    df = convert_formats(df)
+    print(len(df))
+
 
     # # Add total revenue for nominal salary and adjusted salary
     df = add_career_revenue(df)
+    print(len(df))
+
     df = add_career_revenue(df, "adjusted_salary", "adjusted_career_revenue")    
+    print(len(df))
 
     df.to_csv("cleaned_players.csv", index=False)
+    print(len(df))

@@ -103,6 +103,7 @@ def plot_revenue_comparison(players: pd.DataFrame, col: str, title: str, xlabel:
 if __name__ == "__main__":
     df_players = pd.read_csv("cleaned_players.csv")
     df_salaries = pd.read_csv("cleaned_salaries.csv")
+    print(len(df_players))
 
     # show_salaries_histogram(df_salaries)
     # show_salaries_by_team(df_salaries)
