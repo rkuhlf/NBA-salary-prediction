@@ -81,11 +81,12 @@ def drop_na(df):
 
 def add_categorical(df: pd.DataFrame):
     df["attended_college"] = df["college"] != "N/A"
+    df["attended_college"] = df["attended_college"].apply(int)
 
     positions = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center", "Forward", "Guard"]
 
     for position in positions:
-        df[position] = df["position"].map(lambda pos : position in pos)
+        df[position] = df["position"].map(lambda pos : int(position in pos))
 
     return df
 
@@ -107,11 +108,11 @@ if __name__ == "__main__":
     df = pd.read_csv("./players.csv")
     # df = pd.read_csv("./cleaned_players.csv")
 
-    # drop_na(df)
-    # # Add total revenue for nominal salary and adjusted salary
-    # df = add_career_revenue(df)
-    # df = add_career_revenue(df, "adjusted_salary", "adjusted_career_revenue")
-
+    drop_na(df)
     df = add_categorical(df)
+
+    # # Add total revenue for nominal salary and adjusted salary
+    df = add_career_revenue(df)
+    df = add_career_revenue(df, "adjusted_salary", "adjusted_career_revenue")    
 
     df.to_csv("cleaned_players.csv", index=False)

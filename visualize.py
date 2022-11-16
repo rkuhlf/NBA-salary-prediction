@@ -125,14 +125,22 @@ if __name__ == "__main__":
 
     # plot_revenue_comparison(df_players, "career_pts", title="Importance of Scoring", xlabel="Points per Game", alpha=0.5, s=0.15)
 
-    plot_revenue_comparison(df_players, "height", title="Importance of Height", xlabel="Height (in)", alpha=0.5, s=0.15)
+    # plot_revenue_comparison(df_players, "height", title="Importance of Height", xlabel="Height (in)", alpha=0.5, s=0.15)
 
-    data = df_players.groupby(["height"]).mean()
-    data["adjusted_career_revenue"] /= 1e6
+    # data = df_players.groupby(["height"]).mean()
+    # data["adjusted_career_revenue"] /= 1e6
     # plt.plot(data.index, data["adjusted_career_revenue"])
-    print(df_players[df_players["height"] == 90])
+    # print(df_players[df_players["height"] == 90])
 
+    print((df_players["attended_college"] == True).sum())
+    print((df_players["attended_college"] == False).sum())
 
+    college_average = df_players[df_players["attended_college"] == True]["adjusted_career_revenue"].mean() / 1e6
+    no_college_average = df_players[df_players["attended_college"] == False]["adjusted_career_revenue"].mean() / 1e6
+
+    plt.bar(["College", "No College"], [college_average, no_college_average])
+    plt.title("Should I Go to College?")
+    plt.ylabel("Average Earnings (millions)")
 
     plt.savefig("test")
     plt.show()
