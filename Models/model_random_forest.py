@@ -1,17 +1,17 @@
 import numpy as np
 import pandas as pd
-from sklearn.neighbors import KNeighborsRegressor
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 
-from Models.inputs import get_data, input_columns
+from Models.inputs import get_data
 
 from sklearn import metrics
 
 input_columns = ["career_g normalized",
                 #  "birth_year",
-                #  "draft_round",
+                 "draft_round",
                  "draft_year",
-                #  "height normalized",
+                 "height normalized",
                  "weight normalized",
                  "career_pts normalized",
                  "career_per normalized",
@@ -22,11 +22,11 @@ input_columns = ["career_g normalized",
                 #  "career_trb normalized",
                 #  'career_ft normalized',
                 #  "birth_month",
-                #  "attended_college",
-                #  "Center",
-                 "Forward",
-                 "Small Forward",
-                #  "Power Forward",
+                 "attended_college",
+                 "Center",
+                #  "Forward",
+                #  "Small Forward",
+                 "Power Forward",
                 #  "Guard",
                 #  "Shooting Guard",
                 #  "Point Guard",
@@ -34,11 +34,11 @@ input_columns = ["career_g normalized",
 
 
 def create_model(inputs_train, outputs_train):
-    KNN_model = KNeighborsRegressor(n_neighbors=1, weights="uniform", metric="minkowski")
+    model = RandomForestRegressor(100, criterion="squared_error")
 
-    KNN_model = KNN_model.fit(inputs_train, outputs_train)
+    model = model.fit(inputs_train, outputs_train)
 
-    return KNN_model
+    return model
 
 
 def get_error(model, inputs_test, outputs_test):
@@ -87,8 +87,10 @@ if __name__ == "__main__":
 
         print(f"{rmse/1e6:.3f} million")
 
+        # Error around seven million
+
     print(np.mean(errors))
 
-    # compare_players(model)
+    compare_players(model)
 
     pass
