@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import train_test_split
 
-from Models.inputs import get_data
+from Models.inputs import get_data, input_columns
 
 from sklearn import metrics
 
@@ -28,13 +28,13 @@ input_columns = ["career_g normalized",
                  "Small Forward",
                 #  "Power Forward",
                 #  "Guard",
-                 "Shooting Guard",
+                #  "Shooting Guard",
                 #  "Point Guard",
                  ]
 
 
 def create_model(inputs_train, outputs_train):
-    KNN_model = KNeighborsRegressor(n_neighbors=4, weights="uniform", metric="minkowski")
+    KNN_model = KNeighborsRegressor(n_neighbors=1, weights="uniform", metric="minkowski")
 
     KNN_model = KNN_model.fit(inputs_train, outputs_train)
 
@@ -88,7 +88,6 @@ if __name__ == "__main__":
         print(f"{rmse/1e6:.3f} million")
 
     print(np.mean(errors))
-    # Getting about eight million in mean-squared-error
 
     # compare_players(model)
 
