@@ -6,14 +6,14 @@ scaler = StandardScaler()
 
 
 def drop_na(df):
-    to_drop_columns = ["career_efg", "birthplace", "highschool", "draft_team", "draft_pick"]
+    to_drop_columns = ["birthplace", "highschool", "draft_team", "draft_pick"]
     for column in to_drop_columns:
         print(f"Dropping {column}")
         df.drop(labels=[column], axis=1, inplace=True)
     print()
 
 
-    to_drop_rows = ["career_ast", "career_fg", "career_g", "career_per", "career_pts", "career_trb", "career_ws", "weight", "height", "birthdate", "draft_round", "draft_year"]
+    to_drop_rows = ["career_efg", "career_ast", "career_fg", "career_g", "career_per", "career_pts", "career_trb", "career_ws", "weight", "height", "birthdate", "draft_round", "draft_year"]
     for column in to_drop_rows:
         drop_count = df[column].isna().sum()
         total_count = len(df)
@@ -36,7 +36,7 @@ def drop_na(df):
         total_count = len(df)
         print(f"Setting to {default} {drop_count} rows out of {total_count} ({drop_count/total_count:.2f}) because missing {column}")
 
-        df[column].fillna(0, inplace=True)
+        df[column].fillna(default, inplace=True)
     print()
 
 
@@ -79,6 +79,16 @@ def drop_na(df):
             print(f"Skipping {column} because it has been removed")
 
 
+def add_categorical(df: pd.DataFrame):
+    df["attended_college"] = df["college"] != "N/A"
+
+    positions = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center", "Forward", "Guard"]
+
+    for position in positions:
+        df[position] = df["position"].map(lambda pos : position in pos)
+
+    return df
+
 def add_career_revenue(data, from_name="salary", target_name="career_revenue"):
     data[target_name] = 0
     # clean_salaries must be run before this.
@@ -97,8 +107,11 @@ if __name__ == "__main__":
     df = pd.read_csv("./players.csv")
     # df = pd.read_csv("./cleaned_players.csv")
 
-    drop_na(df)
-    df = add_career_revenue(df)
-    df = add_career_revenue(df, "adjusted_salary", "adjusted_career_revenue")
+    # drop_na(df)
+    # # Add total revenue for nominal salary and adjusted salary
+    # df = add_career_revenue(df)
+    # df = add_career_revenue(df, "adjusted_salary", "adjusted_career_revenue")
+
+    df = add_categorical(df)
 
     df.to_csv("cleaned_players.csv", index=False)

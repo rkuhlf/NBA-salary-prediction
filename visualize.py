@@ -120,7 +120,19 @@ if __name__ == "__main__":
 
     # display_salary_over_time(df_salaries)
     # plot_teams_box_plot(df_salaries, "adjusted_salary")
-    plot_revenue_comparison(df_players, "career_pts", title="Importance of Scoring", xlabel="Points per Game", alpha=0.5, s=0.15)
+
+    # df_main_players = df_players[df_players["career_g"] > 150]
+
+    # plot_revenue_comparison(df_players, "career_pts", title="Importance of Scoring", xlabel="Points per Game", alpha=0.5, s=0.15)
+
+    plot_revenue_comparison(df_players, "height", title="Importance of Height", xlabel="Height (in)", alpha=0.5, s=0.15)
+
+    data = df_players.groupby(["height"]).mean()
+    data["adjusted_career_revenue"] /= 1e6
+    # plt.plot(data.index, data["adjusted_career_revenue"])
+    print(df_players[df_players["height"] == 90])
+
+
 
     plt.savefig("test")
     plt.show()
