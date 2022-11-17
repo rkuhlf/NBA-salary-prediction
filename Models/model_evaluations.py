@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import pandas as pd
 
@@ -38,3 +39,32 @@ def compare_players(model, input_columns):
 
     for player in players:
         compare_prediction(model, input_columns, player)
+
+
+def compare_across_salaries(model, input_columns: list, inputs_test: pd.DataFrame, outputs_test: pd.DataFrame):
+    """Graphs the error across salary levels"""
+
+    combined = inputs_test.copy()
+    combined["actual"] = outputs_test
+
+    percentages = np.linspace(0, 1, 7)
+    quantiles = []
+    for percentage in percentages:
+        quantiles.append(combined["actual"].quantile(percentage))
+    errors = []
+
+    prev_quantile = quantiles[0]
+    for quantile in quantiles[1:]:
+        selected = combined[(prev_quantile < combined["actual"]) & (combined["actual"] < quantile)]
+        prev_quantile = quantile
+
+        if len(selected) == 0:
+            raise Exception("Decrease the number of bins so that everyone has one, that way we can show error over the full range.")
+
+        predictions = model.predict(selected[input_columns])
+
+        mse = metrics.mean_squared_error(selected["actual"], predictions)
+        errors.append(math.sqrt(mse))
+
+    return quantiles, errors
+        

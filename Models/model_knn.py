@@ -4,7 +4,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import train_test_split
 
 from Models.inputs import get_data
-from Models.model_evaluations import compare_players, get_error
+from Models.model_evaluations import compare_players, compare_prediction, get_error, compare_across_salaries
 
 
 input_columns = ["career_g normalized",
@@ -40,22 +40,33 @@ def create_model(inputs_train, outputs_train):
 
     return KNN_model
 
-
-if __name__ == "__main__":    
+def get_trained_model():
     inputs, outputs = get_data(input_columns)
+    # print(get_average_error(create_model))
 
+    inputs_train, inputs_test, outputs_train, outputs_test = train_test_split(inputs, outputs, test_size=0.3, random_state=101)
+    model = create_model(inputs_train, outputs_train)
+
+    return model, inputs_test, outputs_test
+
+def get_average_error(model_func, inputs, outputs):
     errors = []
     for state in [100, 101, 102]:
         inputs_train, inputs_test, outputs_train, outputs_test = train_test_split(inputs, outputs, test_size=0.3, random_state=state)
-        model = create_model(inputs_train, outputs_train)
+        model = model_func(inputs_train, outputs_train)
         rmse = get_error(model, inputs_test, outputs_test)
         errors.append(rmse)
 
         print(f"{rmse/1e6:.3f} million")
 
-    print(np.mean(errors))
-    # Getting about eight million in mean-squared-error
+    return np.mean(errors)
 
-    compare_players(model, input_columns)
+if __name__ == "__main__":    
+    model, inputs_test, outputs_test = get_trained_model()
+    quantiles, errors = compare_across_salaries(model, input_columns, inputs_test, outputs_test)
+    
+    # Getting about eight million in root-mean-squared-error
+
+    # compare_players(model, input_columns)
 
     pass

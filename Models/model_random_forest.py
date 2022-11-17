@@ -40,6 +40,16 @@ def create_model(inputs_train, outputs_train):
 
     return model
 
+def get_trained_model():
+    inputs, outputs = get_data(input_columns)
+    # print(get_average_error(create_model))
+
+    inputs_train, inputs_test, outputs_train, outputs_test = train_test_split(inputs, outputs, test_size=0.3, random_state=101)
+    model = create_model(inputs_train, outputs_train)
+
+    return model, inputs_test, outputs_test
+
+
 if __name__ == "__main__":    
     inputs, outputs = get_data(input_columns)
 
