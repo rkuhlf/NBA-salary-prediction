@@ -35,7 +35,7 @@ def compare_prediction(model, input_columns, name):
     print(f"Actual is {actual:.2f} million")
 
 def compare_players(model, input_columns):
-    players = ["LeBron James", "Steve Nash", "Dwight Howard", "Troy Murphy", "Dante Cunningham", "Stephen Curry", "Shaquille O'Neal", "Pau Gasol", "Chris Bosh", "Kobe Bryant", "Fred Roberts", "Zydrunas Ilgauskas"]
+    players = ["LeBron James", "Steve Nash", "Dwight Howard", "Troy Murphy", "Dante Cunningham", "Stephen Curry", "Shaquille O'Neal", "Pau Gasol", "Chris Bosh", "Kobe Bryant", "Fred Roberts", "Zydrunas Ilgauskas", "James Harden", "Russell Westbrook"]
 
     for player in players:
         compare_prediction(model, input_columns, player)

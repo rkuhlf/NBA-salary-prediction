@@ -67,6 +67,6 @@ if __name__ == "__main__":
     
     # Getting about eight million in root-mean-squared-error
 
-    # compare_players(model, input_columns)
+    compare_players(model, input_columns)
 
     pass

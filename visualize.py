@@ -1,6 +1,7 @@
 
 from matplotlib import pyplot as plt
 import pandas as pd
+from matplotlib.ticker import MaxNLocator
 
 
 def show_salaries_histogram(data: pd.DataFrame):
@@ -100,6 +101,23 @@ def plot_revenue_comparison(players: pd.DataFrame, col: str, title: str, xlabel:
     plt.ylabel("Career Revenue (millions)")
     plt.title(title)
 
+def plot_player_salary(players: pd.DataFrame, salaries: pd.DataFrame, name: str):
+    id = players[players["name"] == name]["id"].values[0]
+    relevant_player = salaries[salaries["player_id"] == id]
+
+    relevant_salaries = relevant_player["adjusted_salary"] / 1e6
+
+    
+    
+    ax = plt.figure(dpi=200).gca()
+    plt.plot(relevant_player["season_end"], relevant_salaries)
+    
+    plt.ylabel("Salary (millions)")
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+    plt.title(f"{name} Salary")
+
+
+
 if __name__ == "__main__":
     df_players = pd.read_csv("cleaned_players.csv")
     df_salaries = pd.read_csv("cleaned_salaries.csv")
@@ -117,7 +135,7 @@ if __name__ == "__main__":
     plt.rc('xtick', labelsize=12)
     plt.rc('ytick', labelsize=12)
     # plt.rc('ylabel', labelsize=14)
-    plt.figure(dpi=200)
+    # plt.figure(dpi=200)
 
     # display_salary_over_time(df_salaries)
     # plot_teams_box_plot(df_salaries, "adjusted_salary")
@@ -133,15 +151,17 @@ if __name__ == "__main__":
     # plt.plot(data.index, data["adjusted_career_revenue"])
     # print(df_players[df_players["height"] == 90])
 
-    print((df_players["attended_college"] == True).sum())
-    print((df_players["attended_college"] == False).sum())
+    # print((df_players["attended_college"] == True).sum())
+    # print((df_players["attended_college"] == False).sum())
 
-    college_average = df_players[df_players["attended_college"] == True]["adjusted_career_revenue"].mean() / 1e6
-    no_college_average = df_players[df_players["attended_college"] == False]["adjusted_career_revenue"].mean() / 1e6
+    # college_average = df_players[df_players["attended_college"] == True]["adjusted_career_revenue"].mean() / 1e6
+    # no_college_average = df_players[df_players["attended_college"] == False]["adjusted_career_revenue"].mean() / 1e6
 
-    plt.bar(["College", "No College"], [college_average, no_college_average])
-    plt.title("Should I Go to College?")
-    plt.ylabel("Average Earnings (millions)")
+    # plt.bar(["College", "No College"], [college_average, no_college_average])
+    # plt.title("Should I Go to College?")
+    # plt.ylabel("Average Earnings (millions)")
+
+    plot_player_salary(df_players, df_salaries, "Michael Jordan")
 
     plt.savefig("test")
     plt.show()
