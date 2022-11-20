@@ -4,7 +4,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import train_test_split
 
 from Models.inputs import get_data
-from Models.model_evaluations import compare_players, compare_prediction, get_error, compare_across_salaries
+from Models.model_evaluations import compare_players, compare_prediction, get_error, compare_across_salaries, highest_prediction
 
 
 input_columns = ["career_g normalized",
@@ -67,6 +67,8 @@ if __name__ == "__main__":
     
     # Getting about eight million in root-mean-squared-error
 
-    compare_players(model, input_columns)
+    # compare_players(model, input_columns)
+
+    print(highest_prediction(model, input_columns))
 
     pass

@@ -68,3 +68,11 @@ def compare_across_salaries(model, input_columns: list, inputs_test: pd.DataFram
 
     return quantiles, errors
         
+
+
+def highest_prediction(model, input_columns, top=10):
+    predictions = model.predict(players_df[input_columns])
+
+    players_df["prediction"] = predictions
+
+    return players_df.sort_values("prediction")[-top:]
