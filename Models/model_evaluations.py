@@ -1,9 +1,11 @@
 import math
 import numpy as np
 import pandas as pd
-
 from sklearn import metrics
 
+from config import *
+
+players_df = pd.read_csv(CLEANED_PLAYERS_PATH)
 
 def get_error(model, inputs_test, outputs_test):
     predictions = model.predict(inputs_test)
@@ -12,11 +14,6 @@ def get_error(model, inputs_test, outputs_test):
     rmse = np.sqrt(mse)
 
     return rmse
-
-
-
-
-players_df = pd.read_csv("./cleaned_players.csv")
 
 def compare_prediction(model, input_columns, name):
     player_data = players_df[players_df["name"] == name]
@@ -35,7 +32,7 @@ def compare_prediction(model, input_columns, name):
     print(f"Actual is {actual:.2f} million")
 
 def compare_players(model, input_columns):
-    players = ["LeBron James", "Steve Nash", "Dwight Howard", "Troy Murphy", "Dante Cunningham", "Stephen Curry", "Shaquille O'Neal", "Pau Gasol", "Chris Bosh", "Kobe Bryant", "Fred Roberts", "Zydrunas Ilgauskas", "James Harden", "Russell Westbrook"]
+    players = ["LeBron James", "Steve Nash", "Dwight Howard", "Troy Murphy", "Dante Cunningham", "Stephen Curry", "Shaquille O'Neal", "Pau Gasol", "Chris Bosh", "Kobe Bryant", "Fred Roberts", "Zydrunas Ilgauskas", "James Harden", "Russell Westbrook", "Michael Jordan"]
 
     for player in players:
         compare_prediction(model, input_columns, player)
@@ -68,7 +65,8 @@ def compare_across_salaries(model, input_columns: list, inputs_test: pd.DataFram
 
     return quantiles, errors
         
-
+def predict_custom(model, custom_input: pd.DataFrame):
+    return model.predict(custom_input)
 
 def highest_prediction(model, input_columns, top=10):
     predictions = model.predict(players_df[input_columns])

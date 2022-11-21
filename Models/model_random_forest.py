@@ -62,13 +62,11 @@ def get_average_error():
     # Error around seven million
     return np.mean(errors)
 
-
 if __name__ == "__main__":    
     inputs, outputs = get_data(input_columns)
 
-    # compare_players(model, input_columns)
-
     model = get_trained_model()[0]
-    print(highest_prediction(model, input_columns))
+    # print(highest_prediction(model, input_columns))
+    compare_players(model, input_columns)
 
     pass

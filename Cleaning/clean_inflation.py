@@ -1,8 +1,8 @@
 import pandas as pd
-
+from config import *
 
 if __name__ == "__main__":
-    df = pd.read_csv("inflation.csv")
+    df = pd.read_csv(INFLATION_PATH)
 
     df["year"] = 0
     for index, row in df.iterrows():        
@@ -16,4 +16,4 @@ if __name__ == "__main__":
 
     df["inflation"] = df["GDPDEF"] * multiplier
 
-    df.to_csv("cleaned_inflation.csv")
+    df.to_csv(CLEANED_INFLATION_PATH)

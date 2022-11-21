@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 import pandas as pd
 from matplotlib.ticker import MaxNLocator
 
+from config import *
 
 def show_salaries_histogram(data: pd.DataFrame):
     data = data.copy()
@@ -119,9 +120,8 @@ def plot_player_salary(players: pd.DataFrame, salaries: pd.DataFrame, name: str)
 
 
 if __name__ == "__main__":
-    df_players = pd.read_csv("cleaned_players.csv")
-    df_salaries = pd.read_csv("cleaned_salaries.csv")
-    print(len(df_players))
+    df_players = pd.read_csv(CLEANED_PLAYERS_PATH)
+    df_salaries = pd.read_csv(CLEANED_SALARIES_PATH)
 
     # show_salaries_histogram(df_salaries)
     # show_salaries_by_team(df_salaries)

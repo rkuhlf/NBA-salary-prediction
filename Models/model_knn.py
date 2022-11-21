@@ -4,7 +4,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import train_test_split
 
 from Models.inputs import get_data
-from Models.model_evaluations import compare_players, compare_prediction, get_error, compare_across_salaries, highest_prediction
+from Models.model_evaluations import compare_players, compare_prediction, get_error, compare_across_salaries, highest_prediction, predict_custom
 
 
 input_columns = ["career_g normalized",
@@ -69,6 +69,19 @@ if __name__ == "__main__":
 
     # compare_players(model, input_columns)
 
-    print(highest_prediction(model, input_columns))
+    # print(highest_prediction(model, input_columns))
+    inputs = {
+            "career_g normalized": 0,
+            "draft_year": 0,
+            "weight normalized": 0,
+            "career_pts normalized": 0,
+            "career_per normalized": 0,
+            "career_ws normalized": 0,
+            "career_fg3 normalized": 0,
+            "Forward": 0,
+            "Small Forward": 0,
+            "Shooting Guard": 0,
+    }
+    print(predict_custom(model, ))
 
     pass

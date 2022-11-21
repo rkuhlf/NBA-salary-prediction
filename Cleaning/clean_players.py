@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 import regex as re
 
-
+from config import *
 from helpers import na_count
 scaler = StandardScaler()
 
@@ -108,7 +108,7 @@ def add_categorical(df: pd.DataFrame):
 def add_career_revenue(data, from_name="salary", target_name="career_revenue"):
     data[target_name] = 0
     # clean_salaries must be run before this.
-    salaries = pd.read_csv("cleaned_salaries.csv")
+    salaries = pd.read_csv(CLEANED_SALARIES_PATH)
     for index, row in data.iterrows():
         id = row["id"]
         
@@ -123,8 +123,7 @@ def add_career_revenue(data, from_name="salary", target_name="career_revenue"):
 
 
 if __name__ == "__main__":
-    df = pd.read_csv("./players.csv")
-    # df = pd.read_csv("./cleaned_players.csv")
+    df = pd.read_csv(PLAYERS_PATH)
 
     drop_na(df)
     print(len(df))
@@ -142,5 +141,5 @@ if __name__ == "__main__":
     df = add_career_revenue(df, "adjusted_salary", "adjusted_career_revenue")    
     print(len(df))
 
-    df.to_csv("cleaned_players.csv", index=False)
+    df.to_csv(CLEANED_PLAYERS_PATH, index=False)
     print(len(df))
