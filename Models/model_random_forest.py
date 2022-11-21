@@ -3,8 +3,8 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 
-from Models.inputs import get_data
-from Models.model_evaluations import compare_players, get_error, highest_prediction
+from Data.inputs import get_data
+from Analysis.ModelAnalysis.model_evaluations import compare_players, get_error, highest_prediction
 
 
 input_columns = ["career_g normalized",

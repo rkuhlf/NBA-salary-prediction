@@ -3,8 +3,8 @@ import pandas as pd
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import train_test_split
 
-from Models.inputs import get_data
-from Models.model_evaluations import compare_players, compare_prediction, get_error, compare_across_salaries, highest_prediction, predict_custom
+from Data.inputs import get_data
+from Analysis.ModelAnalysis.model_evaluations import compare_players, compare_prediction, get_error, compare_across_salaries, highest_prediction, predict_custom
 
 
 input_columns = ["career_g normalized",
@@ -41,10 +41,7 @@ def create_model(inputs_train, outputs_train):
     return KNN_model
 
 def get_trained_model():
-    inputs, outputs = get_data(input_columns)
-    # print(get_average_error(create_model))
-
-    inputs_train, inputs_test, outputs_train, outputs_test = train_test_split(inputs, outputs, test_size=0.3, random_state=101)
+    
     model = create_model(inputs_train, outputs_train)
 
     return model, inputs_test, outputs_test

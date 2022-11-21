@@ -3,7 +3,8 @@ from matplotlib import pyplot as plt
 import pandas as pd
 from matplotlib.ticker import MaxNLocator
 
-from config import *
+from path_config import *
+from Data.inputs import get_player_data, get_salary_data, get_inflation_data
 
 def show_salaries_histogram(data: pd.DataFrame):
     data = data.copy()
@@ -46,7 +47,10 @@ def print_top_players(data: pd.DataFrame, count=10):
         revenue = row['career_revenue'].values[0]
         print(f"{name}: ${revenue}")
 
-def display_salary_over_time(salaries: pd.DataFrame):
+def plot_salary_over_time(salaries: pd.DataFrame):
+    """
+    Plots the average salary of each year compared to the inflation adjusted salary of each year across the league.
+    """
     data = salaries.groupby("season_start").mean()
 
     years = data.index
@@ -60,7 +64,6 @@ def display_salary_over_time(salaries: pd.DataFrame):
     # plt.xlabel("Year")
     plt.legend()
     plt.savefig("test")
-    plt.show()
 
 def plot_teams_box_plot(salaries: pd.DataFrame, col="salary"):
     plt.rc('figure', titlesize=20)
@@ -120,15 +123,15 @@ def plot_player_salary(players: pd.DataFrame, salaries: pd.DataFrame, name: str)
 
 
 if __name__ == "__main__":
-    df_players = pd.read_csv(CLEANED_PLAYERS_PATH)
-    df_salaries = pd.read_csv(CLEANED_SALARIES_PATH)
+    players = get_player_data()
+    salaries = get_salary_data()
 
-    # show_salaries_histogram(df_salaries)
-    # show_salaries_by_team(df_salaries)
+    # show_salaries_histogram(salaries)
+    # show_salaries_by_team(salaries)
 
-    # print_top_players(df_players)
+    # print_top_players(players)
 
-    # show_career_revenue_distribution(df_players)
+    # show_career_revenue_distribution(players)
 
     plt.rc('axes', titlesize=20)
     plt.rc('axes', labelsize=14)
@@ -137,31 +140,31 @@ if __name__ == "__main__":
     # plt.rc('ylabel', labelsize=14)
     # plt.figure(dpi=200)
 
-    # display_salary_over_time(df_salaries)
-    # plot_teams_box_plot(df_salaries, "adjusted_salary")
+    # display_salary_over_time(salaries)
+    # plot_teams_box_plot(salaries, "adjusted_salary")
 
-    # df_main_players = df_players[df_players["career_g"] > 150]
+    # df_main_players = players[players["career_g"] > 150]
 
-    # plot_revenue_comparison(df_players, "career_pts", title="Importance of Scoring", xlabel="Points per Game", alpha=0.5, s=0.15)
+    # plot_revenue_comparison(players, "career_pts", title="Importance of Scoring", xlabel="Points per Game", alpha=0.5, s=0.15)
 
-    # plot_revenue_comparison(df_players, "height", title="Importance of Height", xlabel="Height (in)", alpha=0.5, s=0.15)
+    # plot_revenue_comparison(players, "height", title="Importance of Height", xlabel="Height (in)", alpha=0.5, s=0.15)
 
-    # data = df_players.groupby(["height"]).mean()
+    # data = players.groupby(["height"]).mean()
     # data["adjusted_career_revenue"] /= 1e6
     # plt.plot(data.index, data["adjusted_career_revenue"])
-    # print(df_players[df_players["height"] == 90])
+    # print(players[players["height"] == 90])
 
-    # print((df_players["attended_college"] == True).sum())
-    # print((df_players["attended_college"] == False).sum())
+    # print((players["attended_college"] == True).sum())
+    # print((players["attended_college"] == False).sum())
 
-    # college_average = df_players[df_players["attended_college"] == True]["adjusted_career_revenue"].mean() / 1e6
-    # no_college_average = df_players[df_players["attended_college"] == False]["adjusted_career_revenue"].mean() / 1e6
+    # college_average = players[players["attended_college"] == True]["adjusted_career_revenue"].mean() / 1e6
+    # no_college_average = players[players["attended_college"] == False]["adjusted_career_revenue"].mean() / 1e6
 
     # plt.bar(["College", "No College"], [college_average, no_college_average])
     # plt.title("Should I Go to College?")
     # plt.ylabel("Average Earnings (millions)")
 
-    plot_player_salary(df_players, df_salaries, "Michael Jordan")
+    plot_player_salary(players, salaries, "Michael Jordan")
 
     plt.savefig("test")
     plt.show()

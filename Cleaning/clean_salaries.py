@@ -1,8 +1,8 @@
 import pandas as pd
 
-from config import *
+from path_config import *
 from helpers import na_count
-
+from Data.inputs import get_inflation_data
 
 df = pd.read_csv(SALARIES_PATH)
 
@@ -11,7 +11,7 @@ df.dropna(subset=["team"], inplace=True)
 print(na_count(df))
 
 
-df_inflation = pd.read_csv(CLEANED_INFLATION_PATH)
+df_inflation = get_inflation_data()
 
 # Edit salary dataframe to have an additional column that adjusts for inflation based on the GDP deflator.
 df["adjusted_salary"] = 0

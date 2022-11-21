@@ -1,10 +1,12 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+
 import regex as re
 
-from config import *
+from path_config import *
 from helpers import na_count
-scaler = StandardScaler()
+from Data.inputs import get_salary_data
 
 
 def drop_na(df):
@@ -108,7 +110,7 @@ def add_categorical(df: pd.DataFrame):
 def add_career_revenue(data, from_name="salary", target_name="career_revenue"):
     data[target_name] = 0
     # clean_salaries must be run before this.
-    salaries = pd.read_csv(CLEANED_SALARIES_PATH)
+    salaries = get_salary_data()
     for index, row in data.iterrows():
         id = row["id"]
         

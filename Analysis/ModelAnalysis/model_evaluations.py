@@ -3,11 +3,13 @@ import numpy as np
 import pandas as pd
 from sklearn import metrics
 
-from config import *
+from path_config import *
+from Data.inputs import get_player_data
 
-players_df = pd.read_csv(CLEANED_PLAYERS_PATH)
-
-def get_error(model, inputs_test, outputs_test):
+def get_rmse(model, inputs_test, outputs_test):
+    """
+    Returns the root mean square error of evaluating a model on test data.
+    """
     predictions = model.predict(inputs_test)
     mse = metrics.mean_squared_error(outputs_test, predictions)
 
@@ -15,8 +17,18 @@ def get_error(model, inputs_test, outputs_test):
 
     return rmse
 
+def get_percent_error(model, inputs_test, outputs_test):
+    """
+    Returns the average percent error that the model's predictions have on test data.
+    """
+    predictions = model.predict(inputs_test)
+    mape = metrics.mean_absolute_percentage_error(outputs_test, predictions)
+
+    return mape
+
 def compare_prediction(model, input_columns, name):
-    player_data = players_df[players_df["name"] == name]
+    player_data = get_player_data()
+    player_data = player_data[player_data["name"] == name]
 
     if len(player_data) > 1:
         raise Exception("Multiple player names")
@@ -63,14 +75,4 @@ def compare_across_salaries(model, input_columns: list, inputs_test: pd.DataFram
         mse = metrics.mean_squared_error(selected["actual"], predictions)
         errors.append(math.sqrt(mse))
 
-    return quantiles, errors
-        
-def predict_custom(model, custom_input: pd.DataFrame):
-    return model.predict(custom_input)
-
-def highest_prediction(model, input_columns, top=10):
-    predictions = model.predict(players_df[input_columns])
-
-    players_df["prediction"] = predictions
-
-    return players_df.sort_values("prediction")[-top:]
+    return quantiles, errors  

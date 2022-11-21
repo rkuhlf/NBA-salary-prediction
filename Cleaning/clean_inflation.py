@@ -1,5 +1,5 @@
 import pandas as pd
-from config import *
+from path_config import *
 
 if __name__ == "__main__":
     df = pd.read_csv(INFLATION_PATH)
