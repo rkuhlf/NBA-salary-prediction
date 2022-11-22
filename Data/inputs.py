@@ -47,22 +47,22 @@ def get_player_data_for_modeling(input_columns):
 FRAC_TEST = 0.3
 
 def get_split_data(input_columns, random_state=101):
-    inputs, outputs = get_player_data(input_columns)
+    inputs, outputs = get_player_data_for_modeling(input_columns)
 
     return train_test_split(inputs, outputs, test_size=FRAC_TEST, random_state=random_state)
 
-def get_inputs_test(input_columns, random_state=101):
+def get_inputs_train(input_columns, random_state=101):
     inputs_train, inputs_test, outputs_train, outputs_test = get_split_data(input_columns, random_state=random_state)
     return inputs_train
 
-def get_outputs_test(input_columns, random_state=101):
-    inputs_train, inputs_test, outputs_train, outputs_test = get_split_data(input_columns, random_state=random_state)
+def get_outputs_train(random_state=101):
+    inputs_train, inputs_test, outputs_train, outputs_test = get_split_data([], random_state=random_state)
     return outputs_train
 
 def get_inputs_test(input_columns, random_state=101):
     inputs_train, inputs_test, outputs_train, outputs_test = get_split_data(input_columns, random_state=random_state)
     return inputs_test
 
-def get_outputs_test(input_columns, random_state=101):
-    inputs_train, inputs_test, outputs_train, outputs_test = get_split_data(input_columns, random_state=random_state)
+def get_outputs_test(random_state=101):
+    inputs_train, inputs_test, outputs_train, outputs_test = get_split_data([], random_state=random_state)
     return outputs_test
