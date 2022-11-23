@@ -5,11 +5,13 @@ from matplotlib.ticker import MaxNLocator
 
 from path_config import *
 from Data.inputs import get_player_data, get_salary_data, get_inflation_data
+from helpers import to_millions
+from matplotlib_format import slides_format
 
-def show_salaries_histogram(data: pd.DataFrame):
+def plot_salaries_histogram(data: pd.DataFrame):
     data = data.copy()
 
-    data["salary"] /= 1e6
+    data["salary"] = to_millions(data["salary"])
 
     plt.hist(data["salary"], bins=50)
 
@@ -17,26 +19,22 @@ def show_salaries_histogram(data: pd.DataFrame):
     plt.xlabel("Amount (millions)")
     plt.ylabel("Number of Salaries")
 
-    plt.show()
+def plot_revenues_histogram(data: pd.DataFrame):
+    data = data.copy()
+
+    data["adjusted_career_revenue"] = to_millions(data["adjusted_career_revenue"])
+
+    plt.hist(data["adjusted_career_revenue"], bins=50)
+
+    plt.title("Distribution of Revenues")
+    plt.xlabel("Amount (millions)")
+    plt.ylabel("Number of Revenues")
 
 def show_salaries_by_team(data: pd.DataFrame):
     # TODO
     data = data.copy()
 
     print(data.groupby("team").mean())
-
-def show_career_revenue_distribution(data: pd.DataFrame):
-    data = data.copy()
-
-    data["career_revenue"] /= 1e6
-
-    plt.hist(data["career_revenue"], bins=50)
-
-    plt.title("Distribution of Revenue")
-    plt.xlabel("Amount (millions)")
-    plt.ylabel("Number of Players")
-
-    plt.show()
 
 def print_top_players(data: pd.DataFrame, count=10):
     ordered = data.sort_values("career_revenue")
@@ -125,20 +123,16 @@ def plot_player_salary(players: pd.DataFrame, salaries: pd.DataFrame, name: str)
 if __name__ == "__main__":
     players = get_player_data()
     salaries = get_salary_data()
+    slides_format()
 
     # show_salaries_histogram(salaries)
+    
+    plot_revenues_histogram(players)
     # show_salaries_by_team(salaries)
 
     # print_top_players(players)
 
     # show_career_revenue_distribution(players)
-
-    plt.rc('axes', titlesize=20)
-    plt.rc('axes', labelsize=14)
-    plt.rc('xtick', labelsize=12)
-    plt.rc('ytick', labelsize=12)
-    # plt.rc('ylabel', labelsize=14)
-    # plt.figure(dpi=200)
 
     # display_salary_over_time(salaries)
     # plot_teams_box_plot(salaries, "adjusted_salary")
@@ -164,7 +158,7 @@ if __name__ == "__main__":
     # plt.title("Should I Go to College?")
     # plt.ylabel("Average Earnings (millions)")
 
-    plot_player_salary(players, salaries, "Michael Jordan")
+    # plot_player_salary(players, salaries, "Michael Jordan")
 
     plt.savefig("test")
     plt.show()
