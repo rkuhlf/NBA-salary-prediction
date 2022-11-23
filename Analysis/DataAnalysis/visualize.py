@@ -36,15 +36,6 @@ def show_salaries_by_team(data: pd.DataFrame):
 
     print(data.groupby("team").mean())
 
-def print_top_players(data: pd.DataFrame, count=10):
-    ordered = data.sort_values("career_revenue")
-
-    for i in range(1, count + 1):
-        row = ordered.iloc[[-i]]
-        name = row['name'].values[0]
-        revenue = row['career_revenue'].values[0]
-        print(f"{name}: ${revenue}")
-
 def plot_salary_over_time(salaries: pd.DataFrame):
     """
     Plots the average salary of each year compared to the inflation adjusted salary of each year across the league.
