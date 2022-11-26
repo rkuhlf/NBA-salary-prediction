@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 
 from Analysis.ModelAnalysis.model_evaluations import compare_players, compare_prediction, get_rmse
 from Analysis.ModelAnalysis.prediction_analysis import predict_custom
-from Data.inputs import get_inputs_train, get_outputs_train, riley_inputs_KNN
+from Data.inputs import get_inputs_train, get_outputs_train, riley_inputs_KNN, get_inputs_test, get_outputs_test
 
 
 input_columns = ["career_g normalized",
@@ -37,7 +37,7 @@ input_columns = ["career_g normalized",
 def create_model():
     model = KNeighborsRegressor(n_neighbors=4, weights="uniform", metric="minkowski")
     # Getting about eight million in root-mean-squared-error
-    model.inputs = input_columns
+    model.input_columns = input_columns
 
     return model
 
@@ -47,23 +47,13 @@ def get_trained_model():
 
     return model
 
-def get_average_error(model_func, inputs, outputs):
-    errors = []
-    for state in [100, 101, 102]:
-        inputs_train, inputs_test, outputs_train, outputs_test = train_test_split(inputs, outputs, test_size=0.3, random_state=state)
-        model = model_func(inputs_train, outputs_train)
-        rmse = get_rmse(model, inputs_test, outputs_test)
-        errors.append(rmse)
-
-        print(f"{rmse/1e6:.3f} million")
-
-    return np.mean(errors)
-
 if __name__ == "__main__":    
     model = get_trained_model()    
     
 
     # compare_players(model, input_columns)
 
-    print(predict_custom(model, riley_inputs_KNN))
+    # print(predict_custom(model, riley_inputs_KNN))
+    # print(get_rmse(model, get_inputs_test(model.input_columns), get_outputs_test()))
+
     pass

@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 
 from path_config import *
 
-
+positions = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center", "Forward", "Guard"]
 
 inflation_df = None
 def get_inflation_data():
@@ -45,6 +45,12 @@ def get_player_data_for_modeling(input_columns):
 
 
 FRAC_TEST = 0.3
+
+def get_players_train():
+    pass
+
+def get_players_test():
+    pass
 
 def get_split_data(input_columns, random_state=101):
     inputs, outputs = get_player_data_for_modeling(input_columns)

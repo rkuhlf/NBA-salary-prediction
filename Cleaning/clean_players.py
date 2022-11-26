@@ -6,7 +6,7 @@ import regex as re
 
 from path_config import *
 from helpers import na_count
-from Data.inputs import get_salary_data
+from Data.inputs import get_salary_data, positions
 
 
 def drop_na(df):
@@ -99,8 +99,6 @@ def convert_formats(df: pd.DataFrame):
 def add_categorical(df: pd.DataFrame):
     df["attended_college"] = df["college"] != "N/A"
     df["attended_college"] = df["attended_college"].apply(int)
-
-    positions = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center", "Forward", "Guard"]
 
     for position in positions:
         df[position] = df["position"].map(lambda pos : int(position in pos))

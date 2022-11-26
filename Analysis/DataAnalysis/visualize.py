@@ -147,7 +147,7 @@ if __name__ == "__main__":
     salaries = get_salary_data()
     slides_format()
 
-    # show_salaries_histogram(salaries)
+    # plot_salaries_histogram(salaries)
     
     # plot_revenues_histogram(players)
     # show_salaries_by_team(salaries)
@@ -182,8 +182,8 @@ if __name__ == "__main__":
 
     # plot_player_salary(players, salaries, "Michael Jordan")
     # plot_player_salary(players, salaries, "Kevin Garnett")
-    compare_team_salaries(salaries, "Brooklyn Nets", "Houston Rockets")
-    plt.title("The Nets Never Paid Low")
+    # compare_team_salaries(salaries, "Brooklyn Nets", "Houston Rockets")
+    # plt.title("The Nets Never Paid Low")
 
     # compare_team_salaries(salaries, "Brooklyn Nets", "Houston Rockets")
     # plt.title("The Grizzlies Never Paid Low")
