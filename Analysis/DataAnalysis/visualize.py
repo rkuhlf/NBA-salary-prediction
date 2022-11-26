@@ -1,5 +1,6 @@
 
 from matplotlib import pyplot as plt
+import numpy as np
 import pandas as pd
 from matplotlib.ticker import MaxNLocator
 
@@ -109,6 +110,36 @@ def plot_player_salary(players: pd.DataFrame, salaries: pd.DataFrame, name: str)
     ax.xaxis.set_major_locator(MaxNLocator(integer=True))
     plt.title(f"{name} Salary")
 
+def compare_team_salaries(salaries: pd.DataFrame, team1: str, team2: str, bins=20, relative=False):
+    salaries = salaries.copy()
+    salaries["adjusted_salary"] /= 1e6
+    salaries_by_team = salaries.groupby("team")["adjusted_salary"].apply(list).to_dict()
+
+    max_salary = max(np.max(salaries_by_team[team1]), np.max(salaries_by_team[team2]))
+
+    bin_boundaries = range(0, int(max_salary) + 1)
+
+    plt.ylabel("Frequency")
+    plt.xlabel("Salary (millions)")
+
+    team1_salaries = salaries_by_team[team1]
+    team2_salaries = salaries_by_team[team2]
+    weights1 = np.ones_like(team1_salaries)
+    weights2 = np.ones_like(team2_salaries)
+
+    if relative:
+        weights1 = np.zeros_like(team1_salaries) + 1. / len(team1_salaries)
+        weights2 = np.zeros_like(team2_salaries) + 1. / len(team2_salaries)
+
+    plt.hist(team1_salaries, weights=weights1,
+             label=team1, color='red', alpha=0.7, bins=bin_boundaries)
+    plt.hist(team2_salaries, weights=weights2,
+             label=team2, color='yellow', alpha=0.5, bins=bin_boundaries)
+    
+    plt.legend()
+
+
+
 
 
 if __name__ == "__main__":
@@ -150,7 +181,12 @@ if __name__ == "__main__":
     # plt.ylabel("Average Earnings (millions)")
 
     # plot_player_salary(players, salaries, "Michael Jordan")
-    plot_player_salary(players, salaries, "Kevin Garnett")
+    # plot_player_salary(players, salaries, "Kevin Garnett")
+    compare_team_salaries(salaries, "Brooklyn Nets", "Houston Rockets")
+    plt.title("The Nets Never Paid Low")
+
+    # compare_team_salaries(salaries, "Brooklyn Nets", "Houston Rockets")
+    # plt.title("The Grizzlies Never Paid Low")
 
     plt.savefig("test")
     plt.show()
