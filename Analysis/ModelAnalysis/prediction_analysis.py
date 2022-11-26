@@ -6,7 +6,8 @@ import pandas as pd
 
 from Data.inputs import get_player_data_for_modeling
 
-def predict_custom(model, custom_input: pd.DataFrame):
+def predict_custom(model, custom_input: dict):
+    custom_input = pd.DataFrame([custom_input])
     return model.predict(custom_input)
 
 def highest_predictions(model, input_columns, top=10):

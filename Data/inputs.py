@@ -66,3 +66,39 @@ def get_inputs_test(input_columns, random_state=101):
 def get_outputs_test(random_state=101):
     inputs_train, inputs_test, outputs_train, outputs_test = get_split_data([], random_state=random_state)
     return outputs_test
+
+
+
+riley_inputs_KNN = {
+    "career_g normalized": -3,
+    "draft_year": 2023,
+    # Lines up for 155 pounds.
+    "weight normalized": -2.37,
+    # Chosen pretty much randomly.
+    "career_pts normalized": -4,
+    "career_per normalized": -3,
+    "career_ws normalized": -3,
+    "career_fg3 normalized": -3,
+    "Forward": 0,
+    "Small Forward": 0,
+    "Shooting Guard": 0,
+}
+
+riley_inputs_forest = {
+    "career_g normalized": -3,
+    "draft_round": 2,
+    "draft_year": 2023,
+    # Funnily enough, I am actually more out of my weight class than height class for NBA basketball.
+    "height normalized": -2.29,
+    "weight normalized": -2.37,
+    "career_pts normalized": -4,
+    "career_per normalized": -3,
+    "career_ws normalized": -3,
+    "career_fg3 normalized": -3,
+    "attended_college": 1,
+    "Center": 0,
+    "Power Forward": 0
+}
+
+
+                 

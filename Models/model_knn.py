@@ -4,7 +4,8 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import train_test_split
 
 from Analysis.ModelAnalysis.model_evaluations import compare_players, compare_prediction, get_rmse
-from Data.inputs import get_inputs_train, get_outputs_train
+from Analysis.ModelAnalysis.prediction_analysis import predict_custom
+from Data.inputs import get_inputs_train, get_outputs_train, riley_inputs_KNN
 
 
 input_columns = ["career_g normalized",
@@ -64,19 +65,5 @@ if __name__ == "__main__":
 
     # compare_players(model, input_columns)
 
-    # TODO: predict on myself
-    inputs = {
-            "career_g normalized": 0,
-            "draft_year": 0,
-            "weight normalized": 0,
-            "career_pts normalized": 0,
-            "career_per normalized": 0,
-            "career_ws normalized": 0,
-            "career_fg3 normalized": 0,
-            "Forward": 0,
-            "Small Forward": 0,
-            "Shooting Guard": 0,
-    }
-    # print(predict_custom(model, ))
-
+    print(predict_custom(model, riley_inputs_KNN))
     pass

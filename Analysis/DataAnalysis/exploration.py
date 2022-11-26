@@ -20,11 +20,19 @@ def analyze_players_overall(players: pd.DataFrame):
     print(len(players))
     print(np.std(players["adjusted_career_revenue"]))
 
+def analyze_column(df: pd.DataFrame, column):
+    print(f"{column} std: {df[column].std()}")
+    print(f"{column} mean: {df[column].mean()}")
 
 if __name__ == "__main__":
     players_df = get_player_data()
 
     # analyze_players_overall(players_df)
     # print_top_players(players_df, column="adjusted_career_revenue")
-    print_top_players(players_df, column="career_ws")
+    # print_top_players(players_df, column="career_ws")
+
+    analyze_column(players_df, "weight")
+    analyze_column(players_df, "height")
+
+    pass
     

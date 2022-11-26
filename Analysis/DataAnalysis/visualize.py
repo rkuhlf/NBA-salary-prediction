@@ -118,7 +118,7 @@ if __name__ == "__main__":
 
     # show_salaries_histogram(salaries)
     
-    plot_revenues_histogram(players)
+    # plot_revenues_histogram(players)
     # show_salaries_by_team(salaries)
 
     # print_top_players(players)
@@ -150,6 +150,7 @@ if __name__ == "__main__":
     # plt.ylabel("Average Earnings (millions)")
 
     # plot_player_salary(players, salaries, "Michael Jordan")
+    plot_player_salary(players, salaries, "Kevin Garnett")
 
     plt.savefig("test")
     plt.show()

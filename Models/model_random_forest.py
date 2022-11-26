@@ -3,7 +3,8 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 
-from Data.inputs import get_player_data_for_modeling, get_inputs_train, get_outputs_train
+from Analysis.ModelAnalysis.prediction_analysis import predict_custom
+from Data.inputs import get_inputs_train, get_outputs_train, riley_inputs_forest
 from Analysis.ModelAnalysis.model_evaluations import compare_players, get_rmse
 
 
@@ -61,6 +62,8 @@ def get_average_error():
 if __name__ == "__main__":    
     model = get_trained_model()
     # print(highest_prediction(model, input_columns))
-    compare_players(model, input_columns)
+    # compare_players(model, input_columns)
+
+    print(predict_custom(model, riley_inputs_forest))
 
     pass
